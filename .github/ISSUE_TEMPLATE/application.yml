@@ -11,8 +11,8 @@ body:
       label: "Issue Type"
       description: "Select the type of issue you are reporting."
       options:
-        - UI Issue
         - Bug
+        - Content
         - Enhancement
     validations:
       required: true
