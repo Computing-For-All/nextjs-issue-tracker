@@ -41,6 +41,9 @@ jobs:
                             name
                           }
                         }
+                        ... on ProjectV2FieldConfiguration {
+                          __typename
+                        }
                       }
                     }
                   }
