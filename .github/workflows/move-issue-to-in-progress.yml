@@ -1,72 +1,72 @@
-name: Update to In Progress on Assignment
-
-on:
-  issues:
-    types:
-      - assigned
-
-jobs:
-  set-status-in-progress:
-    name: Move Assigned Issue to In-progress
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: Get the item ID of the issue in the project
-      - name: Get Project Item ID
-        id: getItemId
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const projectOwner = 'Computing-For-All';
-            const projectNumber = 3;
-            const issueNodeId = context.payload.issue.node_id;  // Get the Node ID of the assigned issue
-
-            // Fetch the project to get the project ID
-            const { organization } = await github.graphql(`
-              query($login: String!, $number: Int!) {
-                organization(login: $login) {
-                  projectV2(number: $number) {
-                    id
-                    items(first: 100) {
-                      nodes {
-                        id
-                        content {
-                          ... on Issue {
-                            id
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            `, {
-              login: projectOwner,
-              number: projectNumber
-            });
-
-            // Find the item ID in the project corresponding to the issue's node ID
-            const projectId = user.projectV2.id;
-            const projectItem = user.projectV2.items.nodes.find(item => item.content.id === issueNodeId);
-
-            if (!projectItem) {
-              throw new Error(`Item for issue with ID "${issueNodeId}" not found in project.`);
-            }
-
-            console.log('Project Item ID:', projectItem.id);
-            return projectItem.id;
-
-      # Step 2: Update the status of the item in the project to "🚧 In Progress"
-      - name: Update Project Item Status
-        uses: kalgurn/update-project-item-status@main
-        with:
-          project-url: https://github.com/orgs/Computing-For-All/projects/3
-
-          # Use a Personal Access Token (PAT) stored in GitHub secrets
-          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
-
-          # Reference the item ID from the previous step output
-          item-id: ${{ steps.getItemId.outputs.result }}
-
-          # Set the new status to "🚧 In Progress"
-          status: "🚧 In Progress"  # Update with your exact status name in the Project
+#name: Update to In Progress on Assignment
+#
+#on:
+#  issues:
+#    types:
+#      - assigned
+#
+#jobs:
+#  set-status-in-progress:
+#    name: Move Assigned Issue to In-progress
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      # Step 1: Get the item ID of the issue in the project
+#      - name: Get Project Item ID
+#        id: getItemId
+#        uses: actions/github-script@v6
+#        with:
+#          script: |
+#            const projectOwner = 'Computing-For-All';
+#            const projectNumber = 3;
+#            const issueNodeId = context.payload.issue.node_id;  // Get the Node ID of the assigned issue
+#
+#            // Fetch the project to get the project ID
+#            const { organization } = await github.graphql(`
+#              query($login: String!, $number: Int!) {
+#                organization(login: $login) {
+#                  projectV2(number: $number) {
+#                    id
+#                    items(first: 100) {
+#                      nodes {
+#                        id
+#                        content {
+#                          ... on Issue {
+#                            id
+#                          }
+#                        }
+#                      }
+#                    }
+#                  }
+#                }
+#              }
+#            `, {
+#              login: projectOwner,
+#              number: projectNumber
+#            });
+#
+#            // Find the item ID in the project corresponding to the issue's node ID
+#            const projectId = user.projectV2.id;
+#            const projectItem = user.projectV2.items.nodes.find(item => item.content.id === issueNodeId);
+#
+#            if (!projectItem) {
+#              throw new Error(`Item for issue with ID "${issueNodeId}" not found in project.`);
+#            }
+#
+#            console.log('Project Item ID:', projectItem.id);
+#            return projectItem.id;
+#
+#      # Step 2: Update the status of the item in the project to "🚧 In Progress"
+#      - name: Update Project Item Status
+#        uses: kalgurn/update-project-item-status@main
+#        with:
+#          project-url: https://github.com/orgs/Computing-For-All/projects/3
+#
+#          # Use a Personal Access Token (PAT) stored in GitHub secrets
+#          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+#
+#          # Reference the item ID from the previous step output
+#          item-id: ${{ steps.getItemId.outputs.result }}
+#
+#          # Set the new status to "🚧 In Progress"
+#          status: "🚧 In Progress"  # Update with your exact status name in the Project
