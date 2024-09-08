@@ -4,7 +4,7 @@ title: "[ISSUE]: "
 labels: []  # Labels will be selected based on the dropdown
 assignees: ""
 projects:
-  - "your-organization/your-project-name"  # Ensure this points to the correct GitHub Project
+  - "Computing-For-All/nextjs-issue-tracker" 
 
 body:
   - type: dropdown
