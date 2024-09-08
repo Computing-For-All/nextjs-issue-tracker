@@ -1,5 +1,5 @@
 name: "New Issue"
-description: "Report a bug, UI issue, or request an enhancement."
+description: "Report a bug, content corrections, or request an enhancement."
 labels: [ new ]
 projects:
   - "Computing-For-All/nextjs-issue-tracker"
