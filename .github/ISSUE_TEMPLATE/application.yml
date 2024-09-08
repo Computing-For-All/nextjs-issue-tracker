@@ -1,5 +1,6 @@
 name: "New Issue"
 description: "Report a bug, UI issue, or request an enhancement."
+labels: [ "🆕 New Issue" ]
 projects:
   - "Computing-For-All/nextjs-issue-tracker"
 
@@ -14,6 +15,20 @@ body:
         - Bug
         - Content
         - Enhancement
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority_type
+    attributes:
+      label: "Recommended Priority Level"
+      description: "Select the type of issue you are reporting."
+      options:
+        - Not sure
+        - Urgent
+        - High
+        - Medium
+        - Low
     validations:
       required: true
 
