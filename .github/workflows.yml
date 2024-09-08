@@ -1,6 +1,6 @@
 # Workflow for Project Moves
 #
-name: Label issue with New
+name: Label issue as New
 on:
   issues:
     types:
@@ -14,4 +14,4 @@ jobs:
       - name: Label issues
         uses: andymckay/labeler@1.0.4
         with:
-          add-labels: "New"
+          add-labels: "🆕 New Issue"
