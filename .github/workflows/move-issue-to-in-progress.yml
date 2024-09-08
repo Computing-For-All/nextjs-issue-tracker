@@ -17,13 +17,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            // Replace with your own organization/user and project number
-            const projectOwner = 'Computing-For-All'; // Replace with your organization or user name
-            const projectNumber = 3; // Replace with your project number
+            // Set org and project number
+            const projectOwner = 'Computing-For-All';
+            const projectNumber = 3;
 
-            // Replace with your specific field name for "Status" and desired "In Progress" status value
-            const statusFieldName = 'Status'; // Replace with your field name
-            const inProgressStatusValue = '🚧 In Progress'; // Replace with your exact status value
+            // Set field name and status value
+            const statusFieldName = 'Status';
+            const inProgressStatusValue = '🚧 In Progress';
 
             // Retrieve project ID and field ID for Status
             const { data: { user } } = await github.graphql(`
@@ -51,6 +51,10 @@ jobs:
               number: projectNumber
             });
 
+            // Debug output
+            console.log('Project ID:', user.projectV2.id);
+            console.log('Fields:', user.projectV2.fields.nodes);
+
             const projectId = user.projectV2.id;
             const statusField = user.projectV2.fields.nodes.find(field => field.name === statusFieldName);
 
@@ -58,14 +62,21 @@ jobs:
               throw new Error(`Field "${statusFieldName}" not found in project.`);
             }
 
+            console.log('Status Field ID:', statusField.id);
+
             const inProgressOption = statusField.options.find(option => option.name === inProgressStatusValue);
 
             if (!inProgressOption) {
               throw new Error(`Status option "${inProgressStatusValue}" not found in field "${statusFieldName}".`);
             }
 
+            console.log('In Progress Option ID:', inProgressOption.id);
+
             // Add the issue to the project or update its status if already in the project
             const issueNodeId = context.payload.issue.node_id;
+
+            // Debug output for Issue ID
+            console.log('Issue Node ID:', issueNodeId);
 
             // Move the issue to "In Progress" status
             await github.graphql(`
@@ -87,3 +98,5 @@ jobs:
               fieldId: statusField.id,
               optionId: inProgressOption.id
             });
+
+            console.log('Issue moved to "🚧 In Progress"');
