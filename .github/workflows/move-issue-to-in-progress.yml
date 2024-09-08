@@ -1,4 +1,4 @@
-name: Move Issue to In Progress When Assigned
+name: Update to In Progress on Assignment
 
 on:
   issues:
@@ -6,23 +6,21 @@ on:
       - assigned
 
 jobs:
-  move_to_in_progress:
+  set-status-in-progres:
+    name: Move Assigned Issue to In-progress
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      repository-projects: write
 
     steps:
       - name: Update Project Item Status
-        uses: kalgurn/update-project-beta-item-status@v0.0.1
+        uses: kalgurn/update-project-item-status@main
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          project-url: https://github.com/orgs/Computing-For-All/projects/3
 
-          # The ID of the project in GitHub Projects (Beta)
-          project: 'Computing-For-All/nextjs-issue-tracker'
+          # Use a Personal Access Token (PAT) stored in GitHub secrets
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
 
-          # The ID of the item to update (will use the current issue's ID)
-          item-id: ${{ github.event.issue.node_id }}
+          # Reference the item ID from the previous step output
+          item-id: ${{ steps.addItem.outputs.itemId }}
 
-          # The new status
-          status: '🚧 In Progress'  # Make sure this status is exactly as it appears in your Project
+          # Set the new status to "🚧 In Progress"
+          status: "🚧 In Progress"  # Update with your exact status name in the Project
