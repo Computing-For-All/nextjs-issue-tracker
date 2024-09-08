@@ -1,0 +1,89 @@
+name: Move Issue to In Progress When Assigned
+
+on:
+  issues:
+    types:
+      - assigned
+
+jobs:
+  move_to_in_progress:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      repository-projects: write  # Corrected permission for interacting with repository projects
+
+    steps:
+      - name: Move issue to "🚧 In Progress" in project
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Replace with your own organization/user and project number
+            const projectOwner = 'Computing-For-All'; // Replace with your organization or user name
+            const projectNumber = 3; // Replace with your project number
+
+            // Replace with your specific field name for "Status" and desired "In Progress" status value
+            const statusFieldName = 'Status'; // Replace with your field name
+            const inProgressStatusValue = '🚧 In Progress'; // Replace with your exact status value
+
+            // Retrieve project ID and field ID for Status
+            const { data: { user } } = await github.graphql(`
+              query ($login: String!, $number: Int!) {
+                user(login: $login) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 20) {
+                      nodes {
+                        id
+                        name
+                        ... on ProjectV2SingleSelectField {
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, {
+              login: projectOwner,
+              number: projectNumber
+            });
+
+            const projectId = user.projectV2.id;
+            const statusField = user.projectV2.fields.nodes.find(field => field.name === statusFieldName);
+
+            if (!statusField) {
+              throw new Error(`Field "${statusFieldName}" not found in project.`);
+            }
+
+            const inProgressOption = statusField.options.find(option => option.name === inProgressStatusValue);
+
+            if (!inProgressOption) {
+              throw new Error(`Status option "${inProgressStatusValue}" not found in field "${statusFieldName}".`);
+            }
+
+            // Add the issue to the project or update its status if already in the project
+            const issueNodeId = context.payload.issue.node_id;
+
+            // Move the issue to "In Progress" status
+            await github.graphql(`
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $optionId }
+                }) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              projectId: projectId,
+              itemId: issueNodeId,
+              fieldId: statusField.id,
+              optionId: inProgressOption.id
+            });
