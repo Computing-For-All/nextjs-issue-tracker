@@ -1,6 +1,6 @@
 name: "New Issue"
 description: "Report a bug, UI issue, or request an enhancement."
-labels: [ "🆕 New Issue" ]
+labels: [ new ]
 projects:
   - "Computing-For-All/nextjs-issue-tracker"
 
@@ -22,7 +22,7 @@ body:
     id: priority_type
     attributes:
       label: "Recommended Priority Level"
-      description: "Select the type of issue you are reporting."
+      description: "How much impact does the issue have on function of the site?."
       options:
         - Not sure
         - Urgent
