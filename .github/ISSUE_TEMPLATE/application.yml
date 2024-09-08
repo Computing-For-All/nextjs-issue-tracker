@@ -2,7 +2,6 @@ name: "New Issue Report"
 description: "Report a bug, UI issue, or request an enhancement."
 title: "[ISSUE]: "
 labels: []  # Labels will be selected based on the dropdown
-assignees: ""
 projects:
   - "Computing-For-All/nextjs-issue-tracker" 
 
