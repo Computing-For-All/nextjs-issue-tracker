@@ -10,96 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      repository-projects: write  # Corrected permission for interacting with repository projects
+      repository-projects: write
 
     steps:
-      - name: Move issue to "🚧 In Progress" in project
-        uses: actions/github-script@v6
+      - name: Update Project Item Status
+        uses: gr2m/update-project-beta-item@v1.7.1
         with:
-          script: |
-            // Set org and project number
-            const projectOwner = 'Computing-For-All';
-            const projectNumber = 3;
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-            // Set field name and status value
-            const statusFieldName = 'Status';
-            const inProgressStatusValue = '🚧 In Progress';
+          # The ID of the project in GitHub Projects (Beta)
+          project: 'Computing-For-All/nextjs-issue-tracker'
 
-            // Retrieve project ID and field ID for Status
-            const { data: { user } } = await github.graphql(`
-              query ($login: String!, $number: Int!) {
-                user(login: $login) {
-                  projectV2(number: $number) {
-                    id
-                    fields(first: 20) {
-                      nodes {
-                        id
-                        name
-                        ... on ProjectV2SingleSelectField {
-                          options {
-                            id
-                            name
-                          }
-                        }
-                        ... on ProjectV2FieldConfiguration {
-                          __typename
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            `, {
-              login: projectOwner,
-              number: projectNumber
-            });
+          # The ID of the item to update (will use the current issue's ID)
+          item-id: ${{ github.event.issue.node_id }}
 
-            // Debug output
-            console.log('Project ID:', user.projectV2.id);
-            console.log('Fields:', user.projectV2.fields.nodes);
-
-            const projectId = user.projectV2.id;
-            const statusField = user.projectV2.fields.nodes.find(field => field.name === statusFieldName);
-
-            if (!statusField) {
-              throw new Error(`Field "${statusFieldName}" not found in project.`);
-            }
-
-            console.log('Status Field ID:', statusField.id);
-
-            const inProgressOption = statusField.options.find(option => option.name === inProgressStatusValue);
-
-            if (!inProgressOption) {
-              throw new Error(`Status option "${inProgressStatusValue}" not found in field "${statusFieldName}".`);
-            }
-
-            console.log('In Progress Option ID:', inProgressOption.id);
-
-            // Add the issue to the project or update its status if already in the project
-            const issueNodeId = context.payload.issue.node_id;
-
-            // Debug output for Issue ID
-            console.log('Issue Node ID:', issueNodeId);
-
-            // Move the issue to "In Progress" status
-            await github.graphql(`
-              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
-                updateProjectV2ItemFieldValue(input: {
-                  projectId: $projectId
-                  itemId: $itemId
-                  fieldId: $fieldId
-                  value: { singleSelectOptionId: $optionId }
-                }) {
-                  projectV2Item {
-                    id
-                  }
-                }
-              }
-            `, {
-              projectId: projectId,
-              itemId: issueNodeId,
-              fieldId: statusField.id,
-              optionId: inProgressOption.id
-            });
-
-            console.log('Issue moved to "🚧 In Progress"');
+          # The new status
+          status: '🚧 In Progress'  # Make sure this status is exactly as it appears in your Project
