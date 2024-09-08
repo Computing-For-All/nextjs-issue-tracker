@@ -22,9 +22,9 @@ jobs:
             const issueNodeId = context.payload.issue.node_id;  // Get the Node ID of the assigned issue
 
             // Fetch the project to get the project ID
-            const { user } = await github.graphql(`
+            const { organization } = await github.graphql(`
               query($login: String!, $number: Int!) {
-                user(login: $login) {
+                organization(login: $login) {
                   projectV2(number: $number) {
                     id
                     items(first: 100) {
