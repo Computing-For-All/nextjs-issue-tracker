@@ -30,7 +30,7 @@ body:
     attributes:
       label: "URL of the Page"
       description: "Provide the URL of the page where the issue is occurring."
-      placeholder: "https://example.com/page-with-issue"
+      placeholder: "https://watechcoalition.org/page-with-issue"
     validations:
       required: true
       pattern: "https?://.*"  # Ensure the input is a valid URL
@@ -40,6 +40,7 @@ body:
     attributes:
       label: "Steps to Reproduce"
       description: "Provide steps to reproduce the issue if applicable."
+      placeholder: "1. Go to the homepage\n2. Click on the 'Login' button\n3. Enter credentials and press submit"
     validations:
       required: false
 
