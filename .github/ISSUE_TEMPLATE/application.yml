@@ -1,4 +1,4 @@
-name: "New Issue Report"
+name: "New Issue"
 description: "Report a bug, UI issue, or request an enhancement."
 title: "[ISSUE]: "
 labels: []  # Labels will be selected based on the dropdown
@@ -14,10 +14,10 @@ body:
       options:
         - label: "UI Issue"
           value: "UI Issue"
-        - label: "Bug"
-          value: "Bug"
-        - label: "Enhancement"
-          value: "Enhancement"
+        - label: "bug"
+          value: "bug"
+        - label: "enhancement"
+          value: "enhancement"
     validations:
       required: true
 
