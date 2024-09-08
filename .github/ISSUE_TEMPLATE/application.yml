@@ -1,6 +1,5 @@
 name: "New Issue"
 description: "Report a bug, UI issue, or request an enhancement."
-labels: []  # Labels will be selected based on the dropdown
 projects:
   - "Computing-For-All/nextjs-issue-tracker"
 
@@ -34,7 +33,6 @@ body:
       placeholder: "https://watechcoalition.org/page-with-issue"
     validations:
       required: true
-      pattern: "https?://.*"  # Ensure the input is a valid URL
 
   - type: textarea
     id: steps_to_reproduce
