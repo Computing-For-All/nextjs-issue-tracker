@@ -3,20 +3,23 @@ description: "Report a bug, UI issue, or request an enhancement."
 title: "[ISSUE]: "
 labels: []  # Labels will be selected based on the dropdown
 projects:
-  - "Computing-For-All/nextjs-issue-tracker" 
+  - "Computing-For-All/nextjs-issue-tracker"
 
 body:
- - type: dropdown
-  id: issue_type
-  attributes:
-    label: "Issue Type"
-    description: "Select the type of issue you are reporting."
-    options:
-      - "UI Issue"
-      - "Bug"
-      - "Enhancement"
-  validations:
-    required: true
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: "Issue Type"
+      description: "Select the type of issue you are reporting."
+      options:
+        - label: "UI Issue"
+          value: "UI Issue"
+        - label: "Bug"
+          value: "Bug"
+        - label: "Enhancement"
+          value: "Enhancement"
+    validations:
+      required: true
 
   - type: textarea
     id: issue_description
