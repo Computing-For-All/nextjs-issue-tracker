@@ -9,7 +9,7 @@ body:
     id: duplicate_check
     attributes:
       label: "Duplicate Check"
-      description: "Please Ensure there isn't an issue already created."
+      description: "Please Ensure there isn't an issue already created. Browse issues here: https://github.com/Computing-For-All/nextjs-issue-tracker/issues"
       options:
         - label: "I have searched for and didn't find any pre existing issue tracking this"
           required: true
