@@ -42,7 +42,7 @@ body:
       description: "Provide steps to reproduce the issue if applicable."
       placeholder: "1. Go to the homepage\n2. Click on the 'Login' button\n3. Enter credentials and press submit"
     validations:
-      required: false
+      required: true
 
   - type: textarea
     id: expected_behavior
@@ -72,4 +72,4 @@ body:
         - Medium
         - Low
     validations:
-      required: true
+      required: false
