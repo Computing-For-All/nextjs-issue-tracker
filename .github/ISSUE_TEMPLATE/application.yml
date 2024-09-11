@@ -18,20 +18,6 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: priority_type
-    attributes:
-      label: "Recommended Priority Level"
-      description: "How much impact does the issue have on function of the site?."
-      options:
-        - Not sure
-        - Urgent
-        - High
-        - Medium
-        - Low
-    validations:
-      required: true
-
   - type: textarea
     id: issue_description
     attributes:
@@ -73,3 +59,17 @@ body:
       description: "Add any other context, screenshots, or information."
     validations:
       required: false
+
+  - type: dropdown
+    id: priority_type
+    attributes:
+      label: "Recommended Priority Level"
+      description: "Select the priority level based on the issue's impact on the site's functionality. Higher priority should be assigned to issues that significantly affect site operations or user experience."
+      options:
+        - Not sure
+        - Urgent
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
