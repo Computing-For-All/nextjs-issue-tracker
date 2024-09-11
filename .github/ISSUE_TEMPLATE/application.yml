@@ -5,6 +5,15 @@ projects:
   - "Computing-For-All/nextjs-issue-tracker"
 
 body:
+  - type: checkboxes
+    id: duplicate_check
+    attributes:
+      label: "Duplicate Check"
+      description: "Please Ensure there isn't an issue already created."
+      options:
+        - label: "I have searched for and didn't find any pre existing issue tracking this"
+          required: true
+
   - type: dropdown
     id: issue_type
     attributes:
