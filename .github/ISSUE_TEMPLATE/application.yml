@@ -44,6 +44,15 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: version
+    attributes:
+      label: "Git commit hash shown on the site"
+      description: "Provide the git commit hash indicating the version of code running on the site."
+      placeholder: "c7a30f7"
+    validations:
+      required: true
+
   - type: textarea
     id: steps_to_reproduce
     attributes:
